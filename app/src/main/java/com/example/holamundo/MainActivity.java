@@ -11,8 +11,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.holamundo.adapters.CategoryAdapter;
+import com.example.holamundo.models.Category;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,15 +22,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ExampleAdapter.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements CategoryAdapter.OnItemClickListener {
     //Constantes globales de aplicicacion /////////////////////////////////////
     public static final String EXTRA_URL= "imageUrl";
     public static final String EXTRA_CREATOR= "creatorName";
     public static final String EXTRA_LIKES= "likeCount";
     /////////////////////////////////////////////////////////////////////////////
     private RecyclerView mRecyclerView;
-    private ExampleAdapter mExampleAdapter;
-    private ArrayList<ExampleItem> mExampleList;
+    private CategoryAdapter categoryAdapter;
+    private ArrayList<Category> categoriesList;
     private RequestQueue mRequestQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,34 +39,34 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mExampleList = new ArrayList<>();
+        categoriesList = new ArrayList<>();
         mRequestQueue = Volley.newRequestQueue(this);
-        parseJSON();
-
+        fillReciclerView();
     }
 
-    private void parseJSON() {
+    private void fillReciclerView() {
         // String url = "https://pixabay.com/api/?key=5303976-fd6581ad4ac165d1b75cc15b3&q=kitten&image_type=photo&pretty=true";
-        String url = "https://pixabay.com/api/?key=19805017-9bd001171ce637dcf771be927&q=lions&image_type=photo&pretty=true";
+        //String url = "https://pixabay.com/api/?key=19805017-9bd001171ce637dcf771be927&q=lions&image_type=photo&pretty=true";
+        String url = "https://www.vmartinez1984.somee.com/Api/Categories";
+        String urlBase = "https://www.vmartinez1984.somee.com/";
 
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONArray jsonArray) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("hits");
+
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject hit = jsonArray.getJSONObject(i);
-                                String creatorName = hit.getString("user");
-                                String imageUrl = hit.getString("webformatURL");
-                                int likeCount = hit.getInt("likes");
-                                mExampleList.add(new ExampleItem(imageUrl, creatorName, likeCount));
+                                String creatorName = hit.getString("name");
+                                String imageUrl = urlBase + hit.getString("imagePath");
+                                int likeCount = hit.getInt("id");
+                                categoriesList.add(new Category(imageUrl, creatorName, likeCount));
                             }
-                            mExampleAdapter = new ExampleAdapter(MainActivity.this, mExampleList);
-                            mRecyclerView.setAdapter(mExampleAdapter);
+                            categoryAdapter = new CategoryAdapter(MainActivity.this, categoriesList);
+                            mRecyclerView.setAdapter(categoryAdapter);
                             ///////////////////Integracion de evento OnClick () ////////////////////////////////////////////////////////////////
-                            mExampleAdapter.setOnItemClicklistener(MainActivity.this);
+                            categoryAdapter.setOnItemClicklistener(MainActivity.this);
                             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -83,10 +85,10 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
     @Override
     public void onItemClick(int position) {//inicia metodo
         Intent detailIntent = new Intent(this,DetailActivity.class);
-        ExampleItem clickedItem = mExampleList.get(position);
+        Category clickedItem = categoriesList.get(position);
         detailIntent.putExtra(EXTRA_URL,clickedItem.getImageUrl());
-        detailIntent.putExtra(EXTRA_CREATOR,clickedItem.getCreator());
-        detailIntent.putExtra(EXTRA_LIKES,clickedItem.getLikeCount());
+        detailIntent.putExtra(EXTRA_CREATOR,clickedItem.getName());
+        detailIntent.putExtra(EXTRA_LIKES,clickedItem.getId());
         startActivity(detailIntent);
     }//termina metodo
 }
