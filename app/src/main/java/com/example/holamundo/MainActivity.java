@@ -84,11 +84,12 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.O
 
     @Override
     public void onItemClick(int position) {//inicia metodo
-        Intent detailIntent = new Intent(this,DetailActivity.class);
+        Intent intent = new Intent(this,DishesActivity.class);
         Category clickedItem = categoriesList.get(position);
-        detailIntent.putExtra(EXTRA_URL,clickedItem.getImageUrl());
-        detailIntent.putExtra(EXTRA_CREATOR,clickedItem.getName());
-        detailIntent.putExtra(EXTRA_LIKES,clickedItem.getId());
-        startActivity(detailIntent);
+        intent.putExtra("categoryId",clickedItem.getId());
+        //detailIntent.putExtra(EXTRA_URL,clickedItem.getImageUrl());
+        //detailIntent.putExtra(EXTRA_CREATOR,clickedItem.getName());
+        //detailIntent.putExtra(EXTRA_LIKES,clickedItem.getId());
+        startActivity(intent);
     }//termina metodo
 }

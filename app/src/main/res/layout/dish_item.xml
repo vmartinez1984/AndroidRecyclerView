@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
     >
 
     <LinearLayout
@@ -16,15 +18,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_margin="8dp"
             android:layout_weight="2">
 
             <TextView
                 android:id="@+id/textViewId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre" />
+                android:text="Id" />
             <TextView
-                android:id="@+id/textViewNombre"
+                android:id="@+id/textViewName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nombre" />
@@ -39,14 +42,16 @@
                 android:id="@+id/textViewPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Precion" />
+                android:text="Precio" />
+
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_weight="4"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            android:id="@+id/imageViewDish"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_weight="2"
+            android:src="@mipmap/ic_launcher" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

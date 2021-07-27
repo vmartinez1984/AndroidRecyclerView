@@ -1,15 +1,18 @@
 package com.example.holamundo.adapters;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.holamundo.R;
 import com.example.holamundo.models.Category;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
@@ -19,10 +22,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     //Generacion de actividades OnItemListener (presionar click) ////////////////////////////////////////
     private OnItemClickListener mListener;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
-    public void setOnItemClicklistener(OnItemClickListener listener){
+
+    public void setOnItemClicklistener(OnItemClickListener listener) {
         mListener = listener;
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +54,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Picasso.get().load(imageUrl).fit().centerInside().into(holder.mImageView);
         //Picasso.with(mContext).load("file:///android_asset/DvpvklR.png").into(mImageView);
     }
+
     @Override
     public int getItemCount() {
         return categoryList.size();
